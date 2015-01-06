@@ -5,7 +5,8 @@ $( "document" ).ready(function () {
   var $chatRoom = $(".chat-room");
   var $users = $(".users");
   var commands = {
-    "/nick": chat.changeNickName
+    "/nick": chat.changeNickName,
+    "/join": chat.changeRoom,
   }
 
   var welcomeUser = function (data) {
@@ -15,14 +16,16 @@ $( "document" ).ready(function () {
   }
 
   var postMessage = function (data) {
-    var $newLi = $("<li>").text(data.name + ": " + data.text);
+    var $newStrong = $("<strong>").text(data.name)
+    var $newLi = $("<li>").text(": " + data.text);
+    $newLi.prepend($newStrong);
     $chatRoom.append($newLi);
   }
 
   var addUsers = function (data) {
-    console.log(data)
     for (attr in data) {
-      var $newLi = $("<li>").text(data[attr])
+      var $newStrong = $("<strong>").text(data[attr]);
+      var $newLi = $("<li>").append($newStrong);
       $users.append($newLi);
     }
   }
@@ -43,7 +46,9 @@ $( "document" ).ready(function () {
     var message = $target.serializeJSON().message;
     $target.find("input").val('')
     if (commandReg.exec(message)) {
+      allmessages = []
       var realMessage = message.split(commandReg)[1].trim();
+      console.log(realMessage);
       command = commands[commandReg.exec(message)[0]];
       command.call(chat, realMessage)
     } else {
@@ -55,8 +60,7 @@ $( "document" ).ready(function () {
     var message = { name: "System"}
     if (data.success) {
       message.text = data.oldName + " has changed their name to " + data.name
-      var $oldNameEls = $( "li:contains(" + data.oldName + ")" );
-      console.log($oldNameEls);
+      var $oldNameEls = $( "strong:contains(" + data.oldName + ")" );
       $oldNameEls.text(data.name);
     } else {
       message.text = data.message
