@@ -1,0 +1,17 @@
+<head>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/javascripts/chat.js"></script>
+  <script src="/javascripts/chat_ui.js"></script>
+  <script src="/javascripts/jquery.serializejson.min.js"></script>
+</head>
+
+<main class="chat">
+  <ul class="users"></ul>
+  <ul class="chat-room"></ul>
+</main>
+
+<form class="submission" id="form_id" action="index.html" method="post">
+  <input type="text" name="message" value="">
+  <button name="button">Submit</button>
+</form>
